@@ -4,11 +4,13 @@ using System.Linq;
 using System.Threading.Tasks;
 using Alliterations.Api.Generator;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Cors;
 
 namespace Alliterations.Api.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
+    [EnableCors("AllowAllOrigins")]
     public class AlliterationsController : ControllerBase
     {
         private readonly IAlliterationsProvider alliterationsProvider;

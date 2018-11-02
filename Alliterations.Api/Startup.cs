@@ -26,6 +26,13 @@ namespace Alliterations.Api
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
+            services.AddCors(options =>
+            {
+                options.AddPolicy("AllowAllOrigins",
+                    builder => builder.AllowAnyOrigin()
+               .AllowAnyMethod()
+               .AllowAnyHeader());
+            });
             services.BootstrapDependencies();
         }
 
@@ -43,6 +50,7 @@ namespace Alliterations.Api
 
             app.UseHttpsRedirection();
             app.UseMvc();
+            app.UseCors("AllowAllOrigins");
         }
     }
 }

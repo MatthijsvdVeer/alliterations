@@ -11,7 +11,7 @@ namespace Alliterations.Api.Generator
         IEnumerable<string> GetAlliterationsByCategoryAndStartingChar(AlliterationCategory category, char start, int count);
     }
 
-    internal sealed class   AlliterationsProvider : IAlliterationsProvider
+    internal sealed class AlliterationsProvider : IAlliterationsProvider
     {
         private readonly IAlliterationOptionsBuilder alliterationOptionsBuilder;
 
@@ -27,7 +27,6 @@ namespace Alliterations.Api.Generator
 
         public IEnumerable<string> GetAlliterationsByCategory(AlliterationCategory category, int count)
         {
-            System.Console.WriteLine("HELLO!?");
             if (count <= 0)
             {
                 throw new ArgumentException(nameof(count));
@@ -48,10 +47,10 @@ namespace Alliterations.Api.Generator
             {
                 throw new ArgumentException(nameof(count));
             }
-            
+
             var options = this.alliterationOptionsBuilder.CreateAlliterationOptionsForCategory(category);
 
-            if(!options.AllowedStartingCharacters.Contains(start))
+            if (!options.AllowedStartingCharacters.Contains(start))
             {
                 throw new ArgumentException(nameof(start));
             }
