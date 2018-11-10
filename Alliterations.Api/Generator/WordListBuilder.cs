@@ -28,7 +28,7 @@ namespace Alliterations.Api.Generator
                 .GetPathForPartAndCategory(part, category);
             var words = this.wordFileReader.ReadLines(path);
 
-            var lookup = words.ToLookup(word => Char.ToUpper(word[0]));
+            var lookup = words.ToLookup(word => char.ToUpper(word[0]));
             return lookup.ToDictionary(grouping => grouping.Key, grouping => grouping.ToArray());
         }
     }

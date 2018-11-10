@@ -1,7 +1,7 @@
 using Alliterations.Api.Generator;
 using Microsoft.Extensions.DependencyInjection;
 
-namespace Alliterations
+namespace Alliterations.Api
 {
     internal static class Dependencies
     {

@@ -12,7 +12,7 @@ namespace Alliterations.Api.Generator
     {
         public char[] GetAllowedStartingCharacters(IEnumerable<char> keys1, IEnumerable<char> keys2)
         {
-            return keys1.Where(key => keys2.Contains(key)).ToArray();
+            return keys1.Where(keys2.Contains).ToArray();
         }
     }
 }
