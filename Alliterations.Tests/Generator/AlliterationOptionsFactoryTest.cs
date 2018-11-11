@@ -7,19 +7,19 @@ using Xunit;
 
 namespace Alliterations.Tests.Generator
 {
-    public class AlliterationOptionsBuilderTest : IDisposable
+    public class AlliterationOptionsFactoryTest : IDisposable
     {
         private readonly IWordListBuilder wordListBuilder;
 
         private readonly IAllowedStartingCharacterBuilder allowedStartingCharacterBuilder;
 
-        private readonly AlliterationOptionsBuilder builder;
+        private readonly AlliterationOptionsFactory factory;
 
-        public AlliterationOptionsBuilderTest()
+        public AlliterationOptionsFactoryTest()
         {
             this.wordListBuilder = A.Fake<IWordListBuilder>();
             this.allowedStartingCharacterBuilder = A.Fake<IAllowedStartingCharacterBuilder>();
-            this.builder = new AlliterationOptionsBuilder(this.wordListBuilder, this.allowedStartingCharacterBuilder);
+            this.factory = new AlliterationOptionsFactory(this.wordListBuilder, this.allowedStartingCharacterBuilder);
         }
 
         [Fact]
@@ -32,7 +32,7 @@ namespace Alliterations.Tests.Generator
             A.CallTo(() => wordListBuilder.BuildDictionaryForCategory(AlliterationPart.Noun, AlliterationCategory.Full))
                 .Returns(nouns);
 
-            var options = this.builder.CreateAlliterationOptionsForCategory(AlliterationCategory.Full);
+            var options = this.factory.CreateAlliterationOptionsForCategory(AlliterationCategory.Full);
 
             options.Adjectives.Should().BeSameAs(adjectives);
             options.Nouns.Should().BeSameAs(nouns);
@@ -49,7 +49,7 @@ namespace Alliterations.Tests.Generator
             A.CallTo(() => this.allowedStartingCharacterBuilder.GetAllowedStartingCharacters(A<IEnumerable<char>>._, A<IEnumerable<char>>._))
                 .Returns(startingCharacters);
             
-            var options = this.builder.CreateAlliterationOptionsForCategory(AlliterationCategory.Full);
+            var options = this.factory.CreateAlliterationOptionsForCategory(AlliterationCategory.Full);
 
             options.AllowedStartingCharacters.Should().BeSameAs(startingCharacters);
         }

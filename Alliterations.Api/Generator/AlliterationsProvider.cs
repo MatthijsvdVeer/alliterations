@@ -13,16 +13,18 @@ namespace Alliterations.Api.Generator
 
     internal sealed class AlliterationsProvider : IAlliterationsProvider
     {
-        private readonly IAlliterationOptionsBuilder alliterationOptionsBuilder;
-
+        private readonly IAlliterationOptionsFactory alliterationOptionsFactory;
         private readonly IRandomNumberGenerator randomNumberGenerator;
+        private readonly ICachingProvider cachingProvider;
 
         public AlliterationsProvider(
-            IAlliterationOptionsBuilder alliterationOptionsBuilder,
-            IRandomNumberGenerator randomNumberGenerator)
+            IAlliterationOptionsFactory alliterationOptionsFactory,
+            IRandomNumberGenerator randomNumberGenerator,
+            ICachingProvider cachingProvider)
         {
-            this.alliterationOptionsBuilder = alliterationOptionsBuilder;
+            this.alliterationOptionsFactory = alliterationOptionsFactory;
             this.randomNumberGenerator = randomNumberGenerator;
+            this.cachingProvider = cachingProvider;
         }
 
         public IEnumerable<string> GetAlliterationsByCategory(AlliterationCategory category, int count)
@@ -32,7 +34,8 @@ namespace Alliterations.Api.Generator
                 throw new ArgumentException(nameof(count));
             }
 
-            var options = this.alliterationOptionsBuilder.CreateAlliterationOptionsForCategory(category);
+            var options = this.cachingProvider.GetOrSetInCache($"category_{category}",
+                () => this.alliterationOptionsFactory.CreateAlliterationOptionsForCategory(category));
 
             for (var i = 0; i < count; i++)
             {
@@ -48,7 +51,8 @@ namespace Alliterations.Api.Generator
                 throw new ArgumentException(nameof(count));
             }
 
-            var options = this.alliterationOptionsBuilder.CreateAlliterationOptionsForCategory(category);
+            var options = this.cachingProvider.GetOrSetInCache($"category_{category}",
+                () => this.alliterationOptionsFactory.CreateAlliterationOptionsForCategory(category));
 
             if (!options.AllowedStartingCharacters.Contains(start))
             {
@@ -68,7 +72,7 @@ namespace Alliterations.Api.Generator
             return $"{randomAdjective} {randomNoun}";
         }
 
-        private E GetRandomEntryFromArray<E>(E[] items)
+        private T GetRandomEntryFromArray<T>(T[] items)
         {
             return items[this.randomNumberGenerator.GetNext(items.Length)];
         }

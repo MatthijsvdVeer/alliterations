@@ -1,17 +1,17 @@
 namespace Alliterations.Api.Generator
 {
-    internal interface IAlliterationOptionsBuilder
+    internal interface IAlliterationOptionsFactory
     {
         AlliterationOptions CreateAlliterationOptionsForCategory(AlliterationCategory category);
     }
 
-    internal sealed class AlliterationOptionsBuilder : IAlliterationOptionsBuilder
+    internal sealed class AlliterationOptionsFactory : IAlliterationOptionsFactory
     {
         private readonly IWordListBuilder wordListBuilder;
         
         private readonly IAllowedStartingCharacterBuilder allowedStartingCharacterBuilder;
 
-        public AlliterationOptionsBuilder(
+        public AlliterationOptionsFactory(
             IWordListBuilder wordListBuilder, 
             IAllowedStartingCharacterBuilder allowedStartingCharacterBuilder)
         {
