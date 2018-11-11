@@ -11,7 +11,7 @@ const Results = props => {
     return (
       <div>
         <h1>Results</h1>
-        {results}
+        <ul class="list-group">{results}</ul>
       </div>
     )
   }
