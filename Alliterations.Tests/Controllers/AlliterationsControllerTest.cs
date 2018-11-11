@@ -47,6 +47,16 @@ namespace Alliterations.Tests.Controllers
             .MustHaveHappened();
         }
 
+        [Theory]
+        [InlineData(0)]
+        [InlineData(501)]
+        public void Get_ReturnsBadRequestWhenCountOutOfBounds(int count)
+        {
+            var result = this.controller.Get(count);
+
+            result.Result.Should().BeOfType<BadRequestObjectResult>();
+        }
+
         public void Dispose()
         {
         }
