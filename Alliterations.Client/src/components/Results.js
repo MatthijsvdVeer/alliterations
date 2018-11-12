@@ -6,7 +6,7 @@ import { actionCreators } from "../store/Results"
 const Results = props => {
   if (props.results.length > 0) {
     const results = props.results.map(result => (
-      <li class="list-group-item">{result}</li>
+      <li class="list-group-item" key={result}>{result}</li>
     ))
     return (
       <div>

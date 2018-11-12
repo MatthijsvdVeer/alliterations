@@ -7,9 +7,30 @@ let GenerationForm = props => {
     <form onSubmit={handleSubmit}>
       <div className="form-group">
         <label htmlFor="count">Count</label>
-        <Field className="form-control" placeholder="Enter an amount" name="count" id="count" component="input" type="number" />
+        <Field
+          className="form-control"
+          placeholder="Enter an amount"
+          name="count"
+          id="count"
+          component="input"
+          type="number"
+        />
       </div>
-      <button type="submit" className="btn btn-primary">Generate</button>
+      <div className="form-group">
+        <label htmlFor="startingCharacter">Starting character</label>
+        <Field
+          className="form-control"
+          placeholder="Enter a starting character"
+          name="startingCharacter"
+          id="startingCharacter"
+          component="input"
+          type="text"
+          maxlength="1"
+        />
+      </div>
+      <button type="submit" className="btn btn-primary">
+        Generate
+      </button>
     </form>
   )
 }
