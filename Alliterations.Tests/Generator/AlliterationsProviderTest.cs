@@ -90,8 +90,10 @@ namespace Alliterations.Tests.Generator
             alliterations.Should().HaveCount(10);
         }
 
-        [Fact]
-        public void CanGetSingleAlliterationWithSelectedStartingChar()
+        [Theory]
+        [InlineData('M')]
+        [InlineData('m')]
+        public void CanGetSingleAlliterationWithSelectedStartingChar(char startingCharacter)
         {
             A.CallTo(() =>
                     this.alliterationOptionsFactory.CreateAlliterationOptionsForCategory(AlliterationCategory.Full))
@@ -100,7 +102,7 @@ namespace Alliterations.Tests.Generator
             A.CallTo(() => this.randomNumberGenerator.GetNext(1)).Returns(0);
 
             var alliterations =
-                this.provider.GetAlliterationsByCategoryAndStartingChar(AlliterationCategory.Full, 'M', 1);
+                this.provider.GetAlliterationsByCategoryAndStartingChar(AlliterationCategory.Full, startingCharacter, 1);
 
             alliterations.Should().HaveCount(1);
             alliterations.Single().Should().BeEquivalentTo("Mauled Marker");

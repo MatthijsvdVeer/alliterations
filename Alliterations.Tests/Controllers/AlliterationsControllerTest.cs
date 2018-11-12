@@ -32,7 +32,7 @@ namespace Alliterations.Tests.Controllers
         public void Get_ReturnsAllAlliterations()
         {
             A.CallTo(() => this.alliterationsProvider.GetAlliterationsByCategory(AlliterationCategory.Full, 2))
-            .Returns(new[] { "Foo", "Bar" });
+                .Returns(new[] {"Foo", "Bar"});
             var result = this.controller.Get(2);
 
             result.Value.Should().HaveCount(2);
@@ -41,10 +41,10 @@ namespace Alliterations.Tests.Controllers
         [Fact]
         public void Get_DefaultValueForCountIsOne()
         {
-            var result = this.controller.Get();
+            this.controller.Get();
 
             A.CallTo(() => this.alliterationsProvider.GetAlliterationsByCategory(AlliterationCategory.Full, 1))
-            .MustHaveHappened();
+                .MustHaveHappened();
         }
 
         [Theory]
@@ -53,6 +53,34 @@ namespace Alliterations.Tests.Controllers
         public void Get_ReturnsBadRequestWhenCountOutOfBounds(int count)
         {
             var result = this.controller.Get(count);
+
+            result.Result.Should().BeOfType<BadRequestObjectResult>();
+        }
+
+        [Fact]
+        public void Get_AcceptsStartingCharactersUpperAndLower()
+        {
+            A.CallTo(() =>
+                    this.alliterationsProvider.GetAlliterationsByCategoryAndStartingChar(AlliterationCategory.Full,
+                        A<char>._, 1))
+                .Returns(new[] {"Foo", "Bar"});
+
+            // Could do this as an XUnit Fact but would generate 52 unit tests.
+            const string acceptedStartingChars = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ";
+
+            foreach (var startingChar in acceptedStartingChars)
+            {
+                var result = this.controller.Get(1, startingChar);
+                result.Value.Should().HaveCount(2);
+            }
+        }
+
+        [Theory]
+        [InlineData('@')]
+        [InlineData('-')]
+        public void Get_RejectsCharsNotInLatinAlphabet(char startingCharacter)
+        {
+            var result = this.controller.Get(1, startingCharacter);
 
             result.Result.Should().BeOfType<BadRequestObjectResult>();
         }

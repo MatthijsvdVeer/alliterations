@@ -54,6 +54,7 @@ namespace Alliterations.Api.Generator
             var options = this.cachingProvider.GetOrSetInCache($"category_{category}",
                 () => this.alliterationOptionsFactory.CreateAlliterationOptionsForCategory(category));
 
+            start = char.ToUpper(start);
             if (!options.AllowedStartingCharacters.Contains(start))
             {
                 throw new ArgumentException(nameof(start));
