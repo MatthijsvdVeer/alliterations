@@ -6,12 +6,12 @@ import { actionCreators } from "../store/Results"
 const Results = props => {
   if (props.results.length > 0) {
     const results = props.results.map(result => (
-      <li class="list-group-item" key={result}>{result}</li>
+      <li className="list-group-item" key={result}>{result}</li>
     ))
     return (
       <div>
         <h1>Results</h1>
-        <ul class="list-group">{results}</ul>
+        <ul className="list-group">{results}</ul>
       </div>
     )
   }

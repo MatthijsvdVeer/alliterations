@@ -25,7 +25,7 @@ let GenerationForm = props => {
           id="startingCharacter"
           component="input"
           type="text"
-          maxlength="1"
+          maxLength="1"
         />
       </div>
       <button type="submit" className="btn btn-primary">
